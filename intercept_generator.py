@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
     @Created on 18 Dec 2020
     @Author: Geoff Willis
@@ -5,42 +7,41 @@
     @Updated On:
     @Updated On:
     @template: Wrapper class for Intercpt attributes/fields
-
 """
-from Intercept import Intercept
-import config_reader
+
+import json
 import parameter_generator
 
+#config = None
 
+def read_config_file()-> list:
+    with open('intercept.json', 'r') as fh:
+        data = json.load(fh)     
+    return data
 
-def initialize_config():
-    global config
-    config = config_reader.read_config_file()
-    #unpack_config(config)
-
-
+def write_intercept(output_file_name, intercept):
+    with open (output_file_name, 'w') as fh:
+         json.dump(intercept, fh, indent=4)    
 
 def build_intercept():
+    global config
     gen = config.get("EMITTER").get("GENERAL")
     params = config.get("EMITTER").get("PARAMETERS")
     elnot = gen.get("ELNOT")
-    num_intercepts = gen.get("number_intercepts")
-    out_file_name = gen.get("output_file_name")
+    domain = gen.get("domain")
+    mod_type = params.get("PRI").get("modulation_type")
 
-    #for param in params.values():
-    rfs  = parameter_generator.process_parameters(params.get("RF"))
-    pris = parameter_generator.process_parameters(params.get("PRI"))
-    pds  = parameter_generator.process_parameters(params.get("PD"))
-    scan = parameter_generator.process_parameters(params.get("SCAN"))
-    intercept = Intercept(pris, rfs, pds, scan, "", "90.0", "0.0", "", elnot)
-    print("*" * 80)
-    print(intercept.intercept_map)
+    intercept = {"ELNOT": elnot, "mod_type": mod_type, "domain": domain}
+    intercept["rfs"]  = parameter_generator.process_parameters(params.get("RF"))
+    intercept["pris"] = parameter_generator.process_parameters(params.get("PRI"))
+    intercept["pds"]  = parameter_generator.process_parameters(params.get("PD"))
+    intercept["scan"] = parameter_generator.process_parameters(params.get("SCAN"))
 
-
+    return intercept
 
 def run_tests(): 
     rfs = pgen.get_random_float_values_normal_dist(8500, 2, 10)
-    #print(rfs)
+    print(rfs)
 
     pris = pgen.get_random_float_values_normal_dist(533, 2, 20)
     print(pris)
@@ -49,15 +50,25 @@ def run_tests():
     print(pds)
 
     scans = pgen.get_random_float_values_normal_dist(10.0, .1, 1)
-
-
-#intercept = Intercept(pris, rfs, pds, scans, "D", "123.456", "222.1212", "A", "AIR01")
-#print(intercept.pris)
+    print(scans)
 
 
 
-initialize_config()
-build_intercept()
+#Here is where the work gets done
+config = read_config_file()
+out_file_name = config.get("EMITTER").get("GENERAL").get("output_file_name")
+num_intercepts = int (config.get("EMITTER").get("GENERAL").get("number_intercepts"))
+
+out_file = open(out_file_name, "a")
+for i in range(num_intercepts):
+    intercept = build_intercept()
+    intercept["id"] = i
+    out_file.write(json.dumps(intercept, indent=4))
+
+out_file.close()    
+   
+
+
 
 
 
