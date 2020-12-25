@@ -60,11 +60,15 @@ out_file_name = config.get("EMITTER").get("GENERAL").get("output_file_name")
 num_intercepts = int (config.get("EMITTER").get("GENERAL").get("number_intercepts"))
 
 out_file = open(out_file_name, "a")
+out_file.write("[")
+
 for i in range(num_intercepts):
     intercept = build_intercept()
     intercept["id"] = i
     out_file.write(json.dumps(intercept, indent=4))
+    out_file.write(",")
 
+out_file.write("]")
 out_file.close()    
    
 
