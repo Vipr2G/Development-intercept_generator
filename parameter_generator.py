@@ -13,10 +13,10 @@
 import numpy as np
 
 #First two generate test data, second two are called by system
-def get_random_float_values_uniform_dist_test(low = 5.0, high = 0.1, size = 20 ):
+def get_random_float_values_uniform_dist_test(low = 9500.0, high = 0.1, size = 500 ):
     return np.random.uniform(low, high, size)
 
-def get_random_float_values_normal_dist(median = 5., sigma = .1, size = 50):
+def get_random_float_values_normal_dist(median = 9500., sigma = 1, size = 500):
     return np.random.normal(median, sigma, size)
 
 #These are actually called by API, above can be used to gen data for plots to demonstrate the ranges

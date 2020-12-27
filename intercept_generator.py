@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 """
     @Created on 18 Dec 2020
     @Author: Geoff Willis
@@ -10,7 +11,8 @@
 """
 
 import json
-import parameter_generator
+import parameter_generator as pgen
+import matplotlib.pyplot as plt
 
 #config = None
 
@@ -32,10 +34,10 @@ def build_intercept():
     mod_type = params.get("PRI").get("modulation_type")
 
     intercept = {"ELNOT": elnot, "mod_type": mod_type, "domain": domain}
-    intercept["rfs"]  = parameter_generator.process_parameters(params.get("RF"))
-    intercept["pris"] = parameter_generator.process_parameters(params.get("PRI"))
-    intercept["pds"]  = parameter_generator.process_parameters(params.get("PD"))
-    intercept["scan"] = parameter_generator.process_parameters(params.get("SCAN"))
+    intercept["rfs"]  = pgen.process_parameters(params.get("RF"))
+    intercept["pris"] = pgen.process_parameters(params.get("PRI"))
+    intercept["pds"]  = pgen.process_parameters(params.get("PD"))
+    intercept["scan"] = pgen.process_parameters(params.get("SCAN"))
 
     return intercept
 
@@ -60,7 +62,7 @@ out_file_name = config.get("EMITTER").get("GENERAL").get("output_file_name")
 num_intercepts = int (config.get("EMITTER").get("GENERAL").get("number_intercepts"))
 
 out_file = open(out_file_name, "a")
-out_file.write("[")
+out_file.write("{INTERCEPTS: [ {")
 
 for i in range(num_intercepts):
     intercept = build_intercept()
@@ -68,9 +70,16 @@ for i in range(num_intercepts):
     out_file.write(json.dumps(intercept, indent=4))
     out_file.write(",")
 
-out_file.write("]")
-out_file.close()    
-   
+out_file.write("]}")
+out_file.close()
+
+
+data = pgen.get_random_float_values_normal_dist()
+plt.hist(data, bins=30)
+plt.show()
+
+import pandas as pd 
+df = pd.read_json("LND01_intercepts", orient='split')
 
 
 

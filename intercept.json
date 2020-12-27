@@ -2,7 +2,7 @@
     "EMITTER" : {
         "GENERAL" : {
             "ELNOT": "LND01",
-            "number_intercepts": "100",
+            "number_intercepts": "10",
             "output_file_name": "LND01_intercepts",
             "domain": "Landbased"
         },
