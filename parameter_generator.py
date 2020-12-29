@@ -16,7 +16,7 @@ import numpy as np
 def get_random_float_values_uniform_dist_test(low = 9500.0, high = 0.1, size = 500 ):
     return np.random.uniform(low, high, size)
 
-def get_random_float_values_normal_dist(median = 9500., sigma = 1, size = 500):
+def get_random_float_values_normal_dist(median = 9500., sigma = 1, size = 1000000):
     return np.random.normal(median, sigma, size)
 
 #These are actually called by API, above can be used to gen data for plots to demonstrate the ranges

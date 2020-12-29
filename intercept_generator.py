@@ -25,10 +25,9 @@ def write_intercept(output_file_name, intercept):
     with open (output_file_name, 'w') as fh:
          json.dump(intercept, fh, indent=4)    
 
-def build_intercept():
-    global config
-    gen = config.get("EMITTER").get("GENERAL")
-    params = config.get("EMITTER").get("PARAMETERS")
+def build_intercept(config):
+    gen = config.get("GENERAL")
+    params = config.get("PARAMETERS")
     elnot = gen.get("ELNOT")
     domain = gen.get("domain")
     mod_type = params.get("PRI").get("modulation_type")
@@ -58,28 +57,32 @@ def run_tests():
 
 #Here is where the work gets done
 config = read_config_file()
-out_file_name = config.get("EMITTER").get("GENERAL").get("output_file_name")
-num_intercepts = int (config.get("EMITTER").get("GENERAL").get("number_intercepts"))
+out_file_name = config.get("EMITTER")[0].get("GENERAL").get("output_file_name")
 
 out_file = open(out_file_name, "a")
 out_file.write("{INTERCEPTS: [ {")
+guid = 0
 
-for i in range(num_intercepts):
-    intercept = build_intercept()
-    intercept["id"] = i
-    out_file.write(json.dumps(intercept, indent=4))
-    out_file.write(",")
+emitter_configs = config.get("EMITTER")
+for emitter_config in emitter_configs:
+    num_intercepts = int (emitter_config.get("GENERAL").get("number_intercepts"))
+    for i in range(num_intercepts):
+        intercept = build_intercept(emitter_config)
+        intercept["id"] = guid
+        out_file.write(json.dumps(intercept, indent=4))
+        out_file.write(",")
+        guid+=1
 
 out_file.write("]}")
 out_file.close()
 
 
 data = pgen.get_random_float_values_normal_dist()
-plt.hist(data, bins=30)
+plt.hist(data, bins=50)
 plt.show()
 
-import pandas as pd 
-df = pd.read_json("LND01_intercepts", orient='split')
+#import pandas as pd 
+#df = pd.read_json("LND01_intercepts.json", lines=True)
 
 
 

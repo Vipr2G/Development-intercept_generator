@@ -1,40 +1,99 @@
 {
-    "EMITTER" : {
+    "EMITTER" : [{ 
         "GENERAL" : {
             "ELNOT": "LND01",
             "number_intercepts": "10",
-            "output_file_name": "LND01_intercepts",
+            "output_file_name": "generated_intercepts.json",
             "domain": "Landbased"
         },
         "PARAMETERS" : {
-
             "RF": {
-                "number_rfs": "5",
                 "modulation_type": "CONSTANT",
                 "distribution": "NORMAL",
                 "tolerance": "2",
                 "data": [2000.0, 2100.0, 2200.0, 2300.0, 2400.0]
             },
             "PRI": {
-                "number_pris": "10",
                 "modulation_type": "STAGGER",
                 "distribution": "NORMAL",
                 "tolerance": "0.1",
                 "data": [400.0, 450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0, 850.0]
             },
             "PD": {
-                "number_pds": "1",
-                "distribution": "UNIFORM",
+                "distribution": "NORMAL",
                 "tolerance": "0.1",
                 "data": [0.4]
             },
             "SCAN": {
                 "scan_type": "CIRCULAR",
-                "number_scan_rates": "1",
                 "distribution": "NORMAL",
                 "tolerance": "0.1",
                 "data": [15.0]
             }
         }
+    }, {
+        "GENERAL" : {
+            "ELNOT": "AIR01",
+            "number_intercepts": "10000",
+            "output_file_name": "generated_intercepts.json",
+            "domain": "Airborne"
+        },
+        "PARAMETERS" : {
+            "RF": {
+                "modulation_type": "CONSTANT",
+                "distribution": "NORMAL",
+                "tolerance": "2",
+                "data": [9550.0]
+            },
+            "PRI": {
+                "modulation_type": "DWELL_SWITCH",
+                "distribution": "NORMAL",
+                "tolerance": "0.1",
+                "data": [45.0, 455.0, 65.0, 550.0]
+            },
+            "PD": {
+                "distribution": "NORMAL",
+                "tolerance": "0.7",
+                "data": [0.4]
+            },
+            "SCAN": {
+                "scan_type": "CONICAL",
+                "distribution": "NORMAL",
+                "tolerance": "0.6",
+                "data": [40.0]
+            }
+        }
+    }, {
+        "GENERAL" : {
+            "ELNOT": "SEA01",
+            "output_file_name": "generated_intercepts.json",
+            "number_intercepts": "10",
+            "domain": "Seaborne"
+        },
+        "PARAMETERS" : {
+            "RF": {
+                "modulation_type": "CONSTANT",
+                "distribution": "NORMAL",
+                "tolerance": "4",
+                "data": [2880.0]
+            },
+            "PRI": {
+                "modulation_type": "CONSTANT",
+                "distribution": "NORMAL",
+                "tolerance": "0.8",
+                "data": [2660.0]
+            },
+            "PD": {
+                "distribution": "NORMAL",
+                "tolerance": "0.3",
+                "data": [1.5]
+            },
+            "SCAN": {
+                "scan_type": "CIRCULAR",
+                "distribution": "NORMAL",
+                "tolerance": "0.9",
+                "data": [15.0]
+            }
+        }
     }
-}
+]}
