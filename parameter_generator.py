@@ -25,6 +25,9 @@ def generate_random_float_uniform(value, tolerance):
     val = float(value)
     return np.random.uniform(val-half_tol, val+half_tol)
 
+def generat_random_float_uniform_less_than_seed(value, tolerance):
+    return np.random.uniform(value-tolerance, value)
+
 def generate_random_float_normal(nom_val, sigma = 0.1):
     return np.random.normal(float(nom_val), float (sigma))
 
@@ -37,3 +40,21 @@ def process_parameters(config):
             return [generate_random_float_normal(element, prob_tolerance) for element in config.get("data")]
         elif(prob_distribution == "UNIFORM"):
             return [generate_random_float_uniform(element, prob_tolerance) for element in config.get("data")]
+
+def generate_random_geo_from_seed(config):
+    seed_point = config.get("center_point")
+    major_axis = config.get("ellipse_major_axis_length")
+    orientation = config.get("ellipse_major_axis_angle")
+
+    center = seed_point[np.random.randint(len(seed_point))]
+    major = np.random.choice(major_axis)
+    orient = np.random.choice(orientation)
+
+    random_lat = generate_random_float_normal(center[0], 0.13)
+    random_lon = generate_random_float_normal(center[1], 0.13)
+    random_major = generate_random_float_normal(major, 2)
+    random_minor = np.abs(generat_random_float_uniform_less_than_seed(random_major, 2.0))
+    random_angle = generate_random_float_normal(orient, 0.3)
+
+    return dict(lat=random_lat, lon=random_lon, major_axis=random_major, minor_axis=random_minor, orientation=random_angle)
+
