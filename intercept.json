@@ -29,6 +29,11 @@
                 "distribution": "NORMAL",
                 "tolerance": "0.1",
                 "data": [15.0]
+            },
+            "GEO": {
+                "center_point": [[33.2, 43.7], [32.4,53.7], [33.9, 67.67] ],
+                "ellipse_major_axis_angle": [120.0, 200.1, 90, 180],
+                "ellipse_major_axis_length": [4.4, 8.2, 20.1, 1.1]
             }
         }
     }, {
@@ -61,6 +66,11 @@
                 "distribution": "NORMAL",
                 "tolerance": "0.6",
                 "data": [40.0]
+            },
+            "GEO": {
+                "center_point": [[55.8, 37.6], [33.5, 36.3], [39.9, 116.4] ],
+                "ellipse_major_axis_angle": [120.0, 200.1, 90, 180],
+                "ellipse_major_axis_length": [45.0, 20.0, 80.4, 12.2]
             }
         }
     }, {
@@ -93,6 +103,11 @@
                 "distribution": "NORMAL",
                 "tolerance": "0.9",
                 "data": [15.0]
+            },
+            "GEO": {
+                "center_point": [[43.1, 131.9], [35.5, 139.6], [46.5, 30.7] ],
+                "ellipse_major_axis_angle": [120.0, 200.1, 90, 180],
+                "ellipse_major_axis_length": [4.4, 8.2, 20.1, 1.1]
             }
         }
     }

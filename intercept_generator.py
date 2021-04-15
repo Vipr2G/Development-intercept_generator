@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 #config = None
 
-def read_config_file()-> list:
+def read_config_file():
     with open('intercept.json', 'r') as fh:
         data = json.load(fh)     
     return data
@@ -31,12 +31,18 @@ def build_intercept(config):
     elnot = gen.get("ELNOT")
     domain = gen.get("domain")
     mod_type = params.get("PRI").get("modulation_type")
+    geos = params.get("GEO")
 
     intercept = {"ELNOT": elnot, "mod_type": mod_type, "domain": domain}
     intercept["rfs"]  = pgen.process_parameters(params.get("RF"))
     intercept["pris"] = pgen.process_parameters(params.get("PRI"))
     intercept["pds"]  = pgen.process_parameters(params.get("PD"))
     intercept["scan"] = pgen.process_parameters(params.get("SCAN"))
+    if geos:
+       location = pgen.generate_random_geo_from_seed(geos)
+       #print(location)
+       intercept['location'] = location
+
 
     return intercept
 
@@ -52,6 +58,7 @@ def run_tests():
 
     scans = pgen.get_random_float_values_normal_dist(10.0, .1, 1)
     print(scans)
+
 
 
 
